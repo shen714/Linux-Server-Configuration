@@ -1,12 +1,14 @@
 # Linux-Server-Configuration 
 
+## Project Overview
+This project is a baseline installation of a Linux server. In this project, I secure the server from a number of attack vectors, install and configure a database server, and deploy one of the existing [web applications](https://github.com/shen714/Item-Catalog) onto it.
+
 
 ## Summary of the server 
 - Public IP : [52.36.43.221](104.131.87.6)
 - Server OS : Ubuntu 16.04 x64
 - SSH Port: 2200
 - Server Provider:  Amazon Lightsail
-- Web Apllication: [Item-Catalog](https://github.com/shen714/Item-Catalog)
 - URL: [52.36.43.221](104.131.87.6)
 
 
@@ -21,18 +23,24 @@
 - python
 - sqlite3
 
-## Setting Up the Server
-
-### 1. Create a new server
+## Set up the Server
 * Start a new Ubuntu Linux server instance on Amazon Lightsail.
 
-### 2. Secure the server
-* Log into the instance with SSH as ubuntu user.
+## Secure the server
+* Log into the instance with SSH as ubuntu user on web app.
 * Update all currently installed packages.
 ```sh
 ~ $  sudo apt-get update 
 ~ $ sudo apt-get upgrade 
 ```
+
+* Change the SSH port from 22 to 2200. 
+```sh
+Add the Custom TCP 2200 on the app GUI 
+~ $ sudo nano /etc/ssh/sshd_config
+Change Port 22 to Port 2200
+~ $ sudo service ssh restart
+``` 
 
 * Configure the Uncomplicated Firewall.
 ```sh
@@ -46,15 +54,7 @@
 ~ $ sudo ufw status 
 ```
 
-* Change the SSH port from 22 to 2200. 
-```sh
-Add the Custom TCP 2200 on the app GUI 
-~ $ sudo nano /etc/ssh/sshd_config
-Change Port 22 to Port 2200
-~ $ sudo service ssh restart
-```
-
-### 3.Create a grader user and give it the access
+## Create a grader user and give it the access
 * Create a new user account named grader.
 ```sh
 ~ $ sudo adduser grader
@@ -84,7 +84,7 @@ paste the public key
 ~ $ sudo chown /home/grader/.ssh/authorized_keys
 ```
 
-### 4.Install Apache and mod_wsgi
+## Prepare to deploy your project.
 * Configure the local timezone to UTC.
 ```sh
 ~ $ sudo timedatectl set-timezone UTC
@@ -95,7 +95,7 @@ paste the public key
 ~ $ sudo apt-get install libapache2-mod-wsgi 
 ~ $ sudo service apache2 restart
 ```
-### 5.Install and configure PostgreSQL
+* Install and configure PostgreSQL
 ```sh
 ~ $ sudo apt-get install postgresql
 ~ $ sudo su - postgres
@@ -107,7 +107,7 @@ paste the public key
 ~ $ postgres=> \q
 ```
 
-### 6. Deploy the Item Catalog project.
+## Deploy the Item Catalog project.
 * clone the Item Catalog poroject.
 ~ $ sudo mkdir /var/www/ItemCatalog;
 ~ $ cd /var/www/ItemCatalog;
@@ -149,6 +149,7 @@ add :
 ~ $ sudo a2ensite FlaskApp
 ```
 * create .wsgi file
+```sh
 ~ $ sudo nano /var/www/ItemCatalog/itemcatalog.wsgi
 add:
 #!/usr/bin/python
@@ -164,3 +165,4 @@ application.secret_key = 'Add your secret key'
 
 ## Reference
 https://github.com/kongling893/Linux-Server-Configuration-UDACITY
+https://wsgi.readthedocs.io/en/latest/
