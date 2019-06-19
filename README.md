@@ -5,11 +5,11 @@ This project is a baseline installation of a Linux server. In this project, I se
 
 
 ## Summary of the server 
-- Public IP : [52.36.43.221](104.131.87.6)
+- Public IP : [52.36.43.221](http://52.36.43.221/)
 - Server OS : Ubuntu 16.04 x64
 - SSH Port: 2200
 - Server Provider:  Amazon Lightsail
-- URL: [52.36.43.221](104.131.87.6)
+- URL: [52.36.43.221](http://52.36.43.221/)
 
 
 ## Summary of software installed
